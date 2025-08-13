@@ -1,0 +1,13 @@
+/* ModernBlueTemplate.css */
+
+.modern-blue {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.modern-blue .section-title {
+  border-left: 4px solid #2563eb;
+  padding-left: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}

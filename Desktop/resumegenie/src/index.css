@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* 🔵 Custom Utility for Reusable Input Style */
+.input {
+  @apply border border-gray-300 p-2 rounded w-full outline-none focus:ring-2 focus:ring-indigo-400;
+}
+
+/* Optional: Style for textareas */
+textarea.input {
+  @apply h-28 resize-none;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+}
+ 
