@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ResumeFieldsConfig from "../data/ResumeFieldsConfig";
 import ModernBlueTemplate from "../components/templates/ModernBlueTemplate";
+import { Download, Sparkles } from "lucide-react"; 
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const ResumeBuilder = () => {
   const [careerField, setCareerField] = useState("Others");
@@ -27,18 +30,54 @@ const ResumeBuilder = () => {
     });
   };
 
+  // 🔹 Download Resume as PDF
+  const handleDownload = async () => {
+  const element = document.getElementById("resume-preview");
+
+  // Convert to canvas
+  const canvas = await html2canvas(element, { scale: 2 });
+  const imgData = canvas.toDataURL("image/png");
+
+  // Create PDF
+  const pdf = new jsPDF("p", "mm", "a4");
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = pdf.internal.pageSize.getHeight();
+
+  // Scale canvas image to fit PDF width
+  const imgProps = {
+    width: canvas.width,
+    height: canvas.height,
+  };
+  const ratio = imgProps.width / imgProps.height;
+  const pdfImgHeight = pdfWidth / ratio;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfImgHeight);
+
+  pdf.save("resume.pdf");
+};
+
+  // 🔹 AI Enhancement Placeholder
+  const handleAIEnhance = () => {
+    alert("✨ AI resume enhancement coming soon! (will connect to OpenAI API)");
+  };
+
   return (
     <div className="flex flex-col lg:flex-row p-6 gap-6 h-screen overflow-hidden">
       {/* LEFT: Scrollable Form */}
-      <div className="lg:w-1/2 overflow-y-auto pr-4" style={{ maxHeight: "100vh" }}>
+      <div
+        className="lg:w-1/2 overflow-y-auto pr-4"
+        style={{ maxHeight: "100vh" }}
+      >
         <div>
-          <label className="block font-semibold mb-2 text-lg">Choose Career Field:</label>
+          <label className="block font-semibold mb-2 text-lg">
+            Choose Career Field:
+          </label>
           <select
             className="w-full border border-gray-300 p-2 rounded"
             value={careerField}
             onChange={(e) => {
               setCareerField(e.target.value);
-              setFormData({});
+              setFormData({}); // reset form when switching category
             }}
           >
             {Object.keys(ResumeFieldsConfig).map((field) => (
@@ -57,7 +96,9 @@ const ResumeBuilder = () => {
           return (
             <div key={sectionKey} className="space-y-4 border-b pb-6 mt-6">
               {title !== "none" && (
-                <h3 className="text-xl font-semibold text-blue-700">{title}</h3>
+                <h3 className="text-xl font-semibold text-blue-700">
+                  {title}
+                </h3>
               )}
 
               {entries.map((entry, entryIndex) => (
@@ -68,7 +109,10 @@ const ResumeBuilder = () => {
 
                     return (
                       <div key={fieldIndex}>
-                        <label className="block font-medium mb-1">{field.label}</label>
+                        <label className="block font-medium mb-1">
+                          {field.label}
+                        </label>
+
                         {field.type === "textarea" ? (
                           <textarea
                             className="w-full border rounded p-2"
@@ -142,8 +186,31 @@ const ResumeBuilder = () => {
       </div>
 
       {/* RIGHT: Sticky Live Preview */}
-      <div className="lg:w-1/2 sticky top-0 self-start overflow-y-auto" style={{ maxHeight: "100vh" }}>
-        <ModernBlueTemplate formData={formData} sections={selectedSections} />
+      <div
+        className="lg:w-1/2 sticky top-0 self-start overflow-y-auto space-y-4"
+        style={{ maxHeight: "100vh" }}
+      >
+        {/* Action Buttons */}
+        <div className="flex gap-3 justify-end pr-4">
+          <button
+            onClick={handleDownload}
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700"
+          >
+            <Download size={18} /> Download
+          </button>
+
+          <button
+            onClick={handleAIEnhance}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl shadow hover:bg-purple-700"
+          >
+            <Sparkles size={18} /> AI Enhance
+          </button>
+        </div>
+
+        {/* Resume Preview */}
+        <div id="resume-preview">
+          <ModernBlueTemplate formData={formData} sections={selectedSections} />
+        </div>
       </div>
     </div>
   );
