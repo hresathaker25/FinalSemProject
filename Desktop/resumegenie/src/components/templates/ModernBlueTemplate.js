@@ -1,161 +1,147 @@
+// src/components/templates/ModernBlueTemplate.js
 import React from "react";
 
-const ModernBlueTemplate = ({ formData, sections }) => {
+const ModernBlueTemplate = ({ formData = {}, sections = [] }) => {
   const getSection = (key) => formData[key] || [];
-
-  const getField = (sectionKey, fieldLabel) =>
-    getSection(sectionKey)[0]?.[fieldLabel] || "";
-
-  const getSectionByKey = (key) =>
-    sections.find((sec) => sec.sectionKey === key);
-
-  const renderList = (sectionKey) => {
-    const section = getSectionByKey(sectionKey);
-    const label = section?.fields?.[0]?.label || "";
-    const data = getSection(sectionKey);
-    if (!data.length || !data[0][label]) return null;
-
-    return data.map((entry, idx) => (
-      <p key={idx} className="text-sm text-gray-800">
-        - {entry[label]}
-      </p>
-    ));
-  };
-
-  const renderMainSection = (sectionKey, fields) => {
-    const data = getSection(sectionKey);
-    if (!data.length || !Object.values(data[0]).some((val) => val)) return null;
-
-    return data.map((entry, idx) => (
-      <div key={idx} className="mb-4">
-        {fields.map((field, fieldIndex) => (
-          <p key={fieldIndex} className="text-sm text-gray-800 mb-1">
-            <strong>{field.label}:</strong> {entry[field.label] || "-"}
-          </p>
-        ))}
-      </div>
-    ));
-  };
+  const header = getSection("header")[0] || {};
 
   return (
-    <div className="shadow-lg w-full max-w-3xl mx-auto border rounded overflow-hidden">
-      {/* Header */}
-      <div className="bg-gray-200 p-6 text-center">
-        <h1 className="text-3xl font-bold text-gray-800">
-          {getField("header", "Full Name")}
+    <div className="bg-white shadow-2xl rounded-3xl border border-gray-200 p-8 text-gray-800 font-sans w-full max-w-4xl mx-auto">
+      {/* IMAGE + NAME + TITLE */}
+      <div className="text-center mb-8 pb-6 border-b-4 border-blue-600 relative">
+        {header["Profile Photo"] && (
+          <img
+            src={header["Profile Photo"]}
+            alt="Profile"
+            className="w-32 h-32 mx-auto rounded-full object-cover mb-4 border-4 border-blue-600 shadow-lg"
+          />
+        )}
+        <h1 className="text-4xl font-bold text-blue-700 mb-1">
+          {header["Full Name"] || "Your Name"}
         </h1>
-        <p className="text-lg text-gray-700">
-          {getField("header", "Professional Title")}
-        </p>
+        <p className="text-lg text-gray-600 italic">{header["Professional Title"] || "Your Title"}</p>
+        {/* subtle shadow effect under the border */}
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-200 opacity-30"></div>
       </div>
 
-      <div className="flex">
-        {/* Left Sidebar */}
-        <div className="bg-blue-800 text-white p-6 w-1/3 min-h-full text-sm">
-          {/* Profile Image */}
-          {getField("header", "Profile Photo") ? (
-            <img
-              src={getField("header", "Profile Photo")}
-              alt="Profile"
-              className="h-24 w-24 mx-auto rounded-full object-cover mb-4"
-            />
-          ) : (
-            <div className="h-24 w-24 mx-auto bg-gray-300 rounded-full mb-4" />
-          )}
-
-          <div>
-            <p><strong>Phone:</strong> {getField("header", "Phone Number")}</p>
-            <p><strong>Email:</strong> {getField("header", "Email Address")}</p>
-            <p><strong>LinkedIn:</strong> {getField("header", "LinkedIn Profile")}</p>
-            <p><strong>Location:</strong> {getField("header", "Location (City, Country)")}</p>
+      {/* BODY: Two-Column Layout */}
+      <div className="grid grid-cols-3 gap-8">
+        {/* LEFT COLUMN */}
+        <div className="col-span-1 space-y-6">
+          {/* Contact Details */}
+          <div className="bg-blue-50 rounded-lg p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-blue-700 border-b-2 border-blue-400 pb-1 mb-2">
+              Contact
+            </h2>
+            <ul className="space-y-1 text-sm text-gray-700 list-disc list-inside">
+              {header["Phone Number"] && <li>{header["Phone Number"]}</li>}
+              {header["Email Address"] && <li>{header["Email Address"]}</li>}
+              {header["Location (City, Country)"] && <li>{header["Location (City, Country)"]}</li>}
+              {header["LinkedIn Profile"] && <li>{header["LinkedIn Profile"]}</li>}
+            </ul>
           </div>
 
-          <div className="mt-6">
-            {renderList("languages") && (
-              <>
-                <h3 className="font-semibold text-white underline">Languages</h3>
-                {renderList("languages")}
-              </>
-            )}
-          </div>
+          {/* Education */}
+          {sections
+            .filter((s) => s.sectionKey === "education")
+            .map((section) => (
+              <div key={section.sectionKey} className="bg-blue-50 rounded-lg p-4 shadow-sm">
+                <h2 className="text-lg font-semibold text-blue-700 border-b-2 border-blue-400 pb-1 mb-2">
+                  {section.title}
+                </h2>
+                <ul className="space-y-1 text-sm text-gray-700 list-disc list-inside">
+                  {(getSection("education") || []).map((edu, idx) => (
+                    <li key={idx}>
+                      {edu["Degree Name"]} – {edu["Institution Name"]}
+                      {edu["Duration"] && ` | ${edu["Duration"]}`}
+                      {edu["CGPA or Percentage"] && ` | CGPA: ${edu["CGPA or Percentage"]}`}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
 
-          <div className="mt-6">
-            {renderList("interests") && (
-              <>
-                <h3 className="font-semibold text-white underline">Interests</h3>
-                {renderList("interests")}
-              </>
-            )}
-          </div>
+          {/* Certifications */}
+          {sections
+            .filter((s) => s.sectionKey === "certifications")
+            .map((section) => (
+              <div key={section.sectionKey} className="bg-blue-50 rounded-lg p-4 shadow-sm">
+                <h2 className="text-lg font-semibold text-blue-700 border-b-2 border-blue-400 pb-1 mb-2">
+                  {section.title}
+                </h2>
+                <ul className="space-y-1 text-sm text-gray-700 list-disc list-inside">
+                  {(getSection("certifications") || []).map((entry, idx) =>
+                    Object.values(entry).map((val, i) => <li key={i}>{val}</li>)
+                  )}
+                </ul>
+              </div>
+            ))}
 
-          <div className="mt-6">
-            {renderMainSection("education", getSectionByKey("education")?.fields || []) && (
-              <>
-                <h3 className="font-semibold text-white underline">Education</h3>
-                {renderMainSection("education", getSectionByKey("education")?.fields || [])}
-              </>
-            )}
-          </div>
+          {/* Languages */}
+          {sections
+            .filter((s) => s.sectionKey === "languages")
+            .map((section) => (
+              <div key={section.sectionKey} className="bg-blue-50 rounded-lg p-4 shadow-sm">
+                <h2 className="text-lg font-semibold text-blue-700 border-b-2 border-blue-400 pb-1 mb-2">
+                  {section.title}
+                </h2>
+                <ul className="space-y-1 text-sm text-gray-700 list-disc list-inside">
+                  {(getSection("languages") || []).map((entry, idx) =>
+                    Object.values(entry).map((val, i) => <li key={i}>{val}</li>)
+                  )}
+                </ul>
+              </div>
+            ))}
+
+          {/* Interests / Hobbies */}
+          {sections
+            .filter((s) => s.sectionKey === "interests")
+            .map((section) => (
+              <div key={section.sectionKey} className="bg-blue-50 rounded-lg p-4 shadow-sm">
+                <h2 className="text-lg font-semibold text-blue-700 border-b-2 border-blue-400 pb-1 mb-2">
+                  {section.title}
+                </h2>
+                <ul className="space-y-1 text-sm text-gray-700 list-disc list-inside">
+                  {(getSection("interests") || []).map((entry, idx) =>
+                    Object.values(entry).map((val, i) => <li key={i}>{val}</li>)
+                  )}
+                </ul>
+              </div>
+            ))}
         </div>
 
-        {/* Right Main Content */}
-        <div className="bg-white p-6 w-2/3 space-y-6">
-          {getField("summary", "Summary") && (
-            <div>
-              <p className="text-sm text-gray-800 whitespace-pre-line">
-                {getField("summary", "Summary")}
-              </p>
-            </div>
-          )}
-
-          {renderMainSection("work", getSectionByKey("work")?.fields || []) && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Experience</h3>
-              {renderMainSection("work", getSectionByKey("work")?.fields || [])}
-            </div>
-          )}
-
-          {renderMainSection("projects", getSectionByKey("projects")?.fields || []) && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Projects</h3>
-              {renderMainSection("projects", getSectionByKey("projects")?.fields || [])}
-            </div>
-          )}
-
-          {renderMainSection("certifications", getSectionByKey("certifications")?.fields || []) && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Certifications</h3>
-              {renderMainSection("certifications", getSectionByKey("certifications")?.fields || [])}
-            </div>
-          )}
-
-          {renderList("achievements") && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Achievements</h3>
-              {renderList("achievements")}
-            </div>
-          )}
-
-          {renderList("activities") && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Extracurriculars</h3>
-              {renderList("activities")}
-            </div>
-          )}
-
-          {renderList("techSkills") && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Technical Skills</h3>
-              {renderList("techSkills")}
-            </div>
-          )}
-
-          {renderList("softSkills") && (
-            <div>
-              <h3 className="font-bold text-lg mb-2">Soft Skills</h3>
-              {renderList("softSkills")}
-            </div>
-          )}
+        {/* RIGHT COLUMN */}
+        <div className="col-span-2 space-y-8">
+          {sections
+            .filter(
+              (s) =>
+                !["skills", "languages", "certifications", "interests", "education", "header"].includes(
+                  s.sectionKey
+                )
+            )
+            .map((section) => (
+              <div key={section.sectionKey} className="bg-gray-50 rounded-lg p-4 shadow-sm">
+                {section.title !== "none" && (
+                  <h2 className="text-lg font-semibold text-blue-700 border-b-2 border-blue-400 pb-1 mb-3">
+                    {section.title}
+                  </h2>
+                )}
+                <div className="space-y-3">
+                  {(getSection(section.sectionKey) || []).map((entry, idx) => (
+                    <div key={idx} className="space-y-1">
+                      {Object.entries(entry).map(([label, value], i) =>
+                        value ? (
+                          <p key={i} className="text-sm leading-relaxed">
+                            <span className="font-semibold text-gray-800">{label}:</span>{" "}
+                            <span className="text-gray-700">{value}</span>
+                          </p>
+                        ) : null
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>
