@@ -1,0 +1,337 @@
+/* A4 Template Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* A4 Page Setup */
+.a4-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm;
+  margin: 0 auto;
+  background: white;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  overflow: visible;
+}
+
+/* Print Styles */
+@media print {
+  .a4-page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 20mm;
+    box-shadow: none;
+    page-break-after: auto;
+    page-break-inside: auto;
+  }
+  
+  /* Ensure proper page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+  
+  .page-break-after {
+    page-break-after: always;
+  }
+  
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+  
+  /* Hide unnecessary elements in print */
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* A4 Container for Preview */
+.a4-preview-container {
+  width: 210mm;
+  min-height: 297mm;
+  max-width: 100%;
+  transform: scale(0.8);
+  transform-origin: top center;
+  margin: 0 auto;
+  overflow: visible;
+  page-break-after: auto;
+  page-break-inside: auto;
+  background: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .a4-preview-container {
+    transform: scale(0.6);
+    transform-origin: top center;
+  }
+}
+
+/* Typography */
+.a4-page h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.a4-page h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.a4-page h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.a4-page h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.a4-page p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+/* Spacing */
+.a4-page .section {
+  margin-bottom: 1.5rem;
+  page-break-inside: avoid;
+}
+
+.a4-page .section:last-child {
+  margin-bottom: 0;
+}
+
+/* Content flow */
+.a4-page .content-flow {
+  overflow: visible;
+  page-break-inside: auto;
+}
+
+/* Skills and badges */
+.a4-page .skill-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  margin: 0.125rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* Grid layouts */
+.a4-page .grid-2-col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.a4-page .grid-3-col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .a4-page .grid-2-col,
+  .a4-page .grid-3-col {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Page break utilities */
+.page-break-before {
+  page-break-before: always;
+}
+
+.page-break-after {
+  page-break-after: always;
+}
+
+.page-break-inside-avoid {
+  page-break-inside: avoid;
+}
+
+/* Content overflow handling */
+.content-overflow-visible {
+  overflow: visible !important;
+}
+
+.content-overflow-hidden {
+  overflow: hidden !important;
+}
+
+/* Text wrapping */
+.text-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Print-specific adjustments */
+@media print {
+  .a4-page {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Ensure backgrounds print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* PDF Font Scaling Styles - Applied during PDF generation */
+
+/* Base container styles for PDF mode */
+.resume-template {
+  /* Base container styles */
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  line-height: 1.3;
+  color: #333;
+}
+
+/* Main heading (Full Name) */
+.resume-name, .main-name, .header-name {
+  font-size: 22px !important;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* Professional title/subtitle */
+.professional-title, .job-title, .subtitle {
+  font-size: 14px !important;
+  font-weight: normal;
+  line-height: 1.2;
+}
+
+/* Section headings */
+.section-heading, .section-title, h2, h3 {
+  font-size: 12px !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+
+/* Contact information */
+.contact-info, .contact-item {
+  font-size: 9px !important;
+  line-height: 1.3;
+}
+
+/* Body text (descriptions, responsibilities, etc.) */
+.body-text, .description, .responsibility, .project-desc {
+  font-size: 9px !important;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+/* Job titles, company names, project titles */
+.job-title, .company-name, .project-title, .institution-name {
+  font-size: 10px !important;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Dates and durations */
+.date, .duration, .year {
+  font-size: 9px !important;
+  font-style: italic;
+  color: #666;
+}
+
+/* Skills, certifications, achievements */
+.skill-item, .certification, .achievement {
+  font-size: 9px !important;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+/* Education details */
+.degree, .education-item {
+  font-size: 9px !important;
+  line-height: 1.3;
+}
+
+/* Small text (CGPA, percentages, etc.) */
+.small-text, .cgpa, .percentage {
+  font-size: 8px !important;
+  color: #666;
+}
+
+/* List items */
+ul li, ol li {
+  font-size: 9px !important;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+/* Spacing adjustments for compact layout */
+.section {
+  margin-bottom: 10px;
+}
+
+.item {
+  margin-bottom: 6px;
+}
+
+.sub-item {
+  margin-bottom: 3px;
+}
+
+/* Responsive adjustments - these will be overridden during PDF generation */
+@media screen and (max-width: 768px) {
+  .resume-name { font-size: 20px !important; }
+  .professional-title { font-size: 13px !important; }
+  .section-heading { font-size: 11px !important; }
+  .body-text { font-size: 8px !important; }
+}
+
+/* PDF-specific styles - applied during download */
+.pdf-mode .resume-name { font-size: 18px !important; }
+.pdf-mode .professional-title { font-size: 11px !important; }
+.pdf-mode .section-heading { font-size: 10px !important; }
+.pdf-mode .body-text { font-size: 8px !important; }
+.pdf-mode .contact-info { font-size: 8px !important; }
+.pdf-mode .job-title { font-size: 9px !important; }
+.pdf-mode .date { font-size: 8px !important; }
+
+/* PDF Generation Mode Styles */
+.pdf-generation-mode {
+  font-family: 'Arial', 'Helvetica', sans-serif !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.pdf-generation-mode * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 0 !important;
+}
